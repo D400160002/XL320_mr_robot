@@ -18,6 +18,10 @@ char rgb[] = "rgbypcwo";
 int movingColour = 0;
 int stillColour = 1;
 
+// Set laser intensity
+int laserIntensity = 0;
+int laserPin = 3;
+
 // Delay between sending & receiving data
 int delayBetweenSendReceive = 10;
 
@@ -49,7 +53,10 @@ void setup() {
   
   // LED to show packet errors (goes out for errors)
   pinMode(13, OUTPUT);
-
+  
+  // Setup the laser
+  pinMode(laserPin, OUTPUT);
+  
   // Talk serial with your servo by connecting the servo input data line to Digital TX 1
   HalfDuplexSerial.begin(115200);
   HalfDuplexSerial.setTimeout(delayBetweenSendReceive);
@@ -87,6 +94,10 @@ void loop() {
   if (abs(servoThreePosition - servoThreePositionNow) > 10) {
     servoThreeLED = movingColour;
   }
+  
+  // Fade the laser intensity
+  analogWrite(laserPin, laserIntensity);
+  laserIntensity = (laserIntensity + 1) % 10;
 
   // Set servoPositions
   servoOnePosition = servoOnePositionNow;
