@@ -2,7 +2,7 @@
 
 A work in progress of three laser tentacles for an art installation.
 
-<iframe src="https://player.vimeo.com/video/130617992" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<a href="https://vimeo.com/130617992"><img src="https://sighmon.com/images/XL320_mr_robot.jpg" width="100%"></a>
 
 ## Hardware
 
