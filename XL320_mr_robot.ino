@@ -40,6 +40,8 @@ int servoOnePosition = 0;
 int servoTwoPosition = 0;
 int servoThreePosition = 0;
 
+byte buffer[256];
+
 void setup() {
   
   // Setup half duplex
@@ -66,21 +68,19 @@ void setup() {
   
   // I like fast moving servos, so set the joint speed to max!
   robot.setJointSpeed(servoOneID, 1023);
-  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256); // After each command to be ready for next command
   robot.setJointSpeed(servoTwoID, 1023);
-  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256);
   robot.setJointSpeed(servoThreeID, 1023);
-  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256);
 
 }
 
 void loop() {
   
-  byte buffer[256];
-  
   servoOneLED = servoTwoLED = servoThreeLED = stillColour;
 
-  int servoOnePositionNow = analogRead(A0);
+  int servoOnePositionNow = 1024 - analogRead(A0);
   int servoTwoPositionNow = analogRead(A1);
   int servoThreePositionNow = analogRead(A2);
 
@@ -106,29 +106,19 @@ void loop() {
   
   // Set LED Red
   robot.LED(servoOneID, &rgb[servoOneLED] );
-  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256);
   robot.LED(servoTwoID, &rgb[servoTwoLED] );
-  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256);
   robot.LED(servoThreeID, &rgb[servoThreeLED] );
-  delay(delayBetweenSendReceive);
-  
-  // Read back
-//  XL320::Packet p = XL320::Packet(buffer, robot.readPacket(buffer,256));
-//  if (p.isValid()) {
-//    // Set pin 13 HIGH so we know!
-//    digitalWrite(13, HIGH);
-//  } else {
-//    digitalWrite(13, LOW);
-//  }
-//  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256);
 
   // Servo test.. select a random servoID and colour
   robot.moveJoint(servoOneID, servoOnePosition);
-  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256);
   robot.moveJoint(servoTwoID, servoTwoPosition);
-  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256);
   robot.moveJoint(servoThreeID, servoThreePosition);
-  delay(delayBetweenSendReceive);
+  robot.readPacket(buffer,256);
   
   // To read back from the servo
 //  XL320::Packet pp = XL320::Packet(buffer, robot.readPacket(buffer,256));
